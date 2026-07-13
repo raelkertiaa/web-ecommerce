@@ -49,7 +49,7 @@ class ProductController extends Controller
         // Upload Gambar
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
+            $imagePath = $request->file('image')->store('products', 's3');
         }
 
         Product::create([
@@ -92,11 +92,11 @@ class ProductController extends Controller
         // Cek apakah ada upload gambar baru?
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
-            if ($product->image && Storage::disk('public')->exists($product->image)) {
-                Storage::disk('public')->delete($product->image);
+            if ($product->image && Storage::disk('s3')->exists($product->image)) {
+                Storage::disk('s3')->delete($product->image);
             }
             // Simpan gambar baru
-            $data['image'] = $request->file('image')->store('products', 'public');
+            $data['image'] = $request->file('image')->store('products', 's3');
         }
 
         $product->update($data);
@@ -110,8 +110,8 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
     
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
+        if ($product->image && Storage::disk('s3')->exists($product->image)) {
+            Storage::disk('s3')->delete($product->image);
         }
 
         $product->delete();
