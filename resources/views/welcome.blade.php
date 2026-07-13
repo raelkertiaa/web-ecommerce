@@ -109,7 +109,7 @@
                                     class="flex items-center gap-2 border border-blue-400 hover:border-yellow-400 bg-blue-700 hover:bg-blue-800 pl-1.5 pr-4 py-1.5 rounded-full transition shadow-sm h-10">
 
                                     @if (Auth::user()->image)
-                                        <img src="{{ asset('storage/' . Auth::user()->image) }}"
+                                        <img src="{{ Storage::disk('s3')->url(Auth::user()->image) }}"
                                             class="w-7 h-7 rounded-full object-cover border border-yellow-400 shadow-sm">
                                     @else
                                         <div
@@ -183,7 +183,7 @@
                             <div class="swiper-slide relative group cursor-pointer">
                                 <a href="{{ route('product.show', $product->id) }}" class="block w-full h-full">
 
-                                    <img src="{{ asset('storage/' . $product->image) }}"
+                                    <img src="{{ Storage::disk('s3')->url($product->image) }}"
                                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
 
                                     <div
@@ -319,7 +319,7 @@
 
                         <div class="h-64 bg-gray-100 w-full overflow-hidden relative group shrink-0">
                             @if ($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                <img src="{{ Storage::disk('s3')->url($product->image) }}" alt="{{ $product->name }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 
                                     {{ $product->stock <= 0 ? 'grayscale opacity-60' : '' }}">
                             @else
