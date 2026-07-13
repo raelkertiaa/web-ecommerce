@@ -1,3 +1,4 @@
+@use(Illuminate\Support\Facades\Storage)
 <!DOCTYPE html>
 <html lang="id">
 
@@ -79,7 +80,7 @@
                                 class="flex items-center gap-2 border border-blue-400 hover:border-yellow-400 bg-blue-700 hover:bg-blue-800 pl-1.5 pr-4 py-1.5 rounded-full transition shadow-sm h-10">
 
                                 @if (Auth::user()->image)
-                                    <img src="{{ asset('storage/' . Auth::user()->image) }}"
+                                    <img src="{{ Storage::disk('s3')->url(Auth::user()->image) }}"
                                         class="w-7 h-7 rounded-full object-cover border border-yellow-400 shadow-sm">
                                 @else
                                     <div
@@ -154,7 +155,7 @@
 
                 <div class="md:w-1/2 bg-gray-50 flex justify-center items-center p-6 relative">
                     @if ($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                        <img src="{{ Storage::disk('s3')->url($product->image) }}" alt="{{ $product->name }}"
                             class="w-full h-[700px] object-cover rounded-lg shadow-sm {{ $product->stock <= 0 ? 'grayscale opacity-60' : '' }}">
                     @else
                         <div
@@ -281,7 +282,7 @@
                                     <div
                                         class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm shadow-sm overflow-hidden">
                                         @if ($review->user->image)
-                                            <img src="{{ asset('storage/' . $review->user->image) }}"
+                                            <img src="{{ Storage::disk('s3')->url($review->user->image) }}"
                                                 class="w-full h-full object-cover">
                                         @else
                                             {{ substr($review->user->name, 0, 1) }}
