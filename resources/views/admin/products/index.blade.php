@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('layouts.admin')
 
 @section('title', 'Daftar Produk')
@@ -66,7 +67,7 @@
 
                     <div class="flex items-center gap-3 p-2.5 xl:p-5">
                         <div class="flex-shrink-0 h-12 w-12 rounded overflow-hidden border border-gray-200">
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="Product"
+                           <img src="{{ Storage::disk('s3')->url($product->image) }}" alt="Product"
                                 class="h-full w-full object-cover">
                         </div>
                         <p class="hidden text-black sm:block font-medium">{{ $product->name }}</p>

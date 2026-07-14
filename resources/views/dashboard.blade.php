@@ -48,7 +48,7 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
                     <div class="relative w-32 h-32 mx-auto mb-4">
                         @if (Auth::user()->image)
-                            <img src="{{ asset('storage/' . Auth::user()->image) }}"
+                            <img src="{{ Storage::disk('s3')->url(Auth::user()->image) }}"
                                 class="w-full h-full object-cover rounded-full border-4 border-blue-50 shadow-md">
                         @else
                             <div

@@ -33,12 +33,11 @@ class DashboardController extends Controller
         // Cek Upload Foto
         if ($request->hasFile('image')) {
             // Hapus foto lama jika ada (dan bukan placeholder/url luar)
-            if ($user->image && Storage::disk('public')->exists($user->image)) {
-                Storage::disk('public')->delete($user->image);
-            }
+            if ($user->image && Storage::disk('s3')->exists($user->image)) {
+    Storage::disk('s3')->delete($user->image);
+}
 
-            // Simpan foto baru di folder 'profiles' dalam storage public
-            $path = $request->file('image')->store('profiles', 'public');
+            $path = $request->file('image')->store('profiles', 's3');
             $user->image = $path;
         }
 

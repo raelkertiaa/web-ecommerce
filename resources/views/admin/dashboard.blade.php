@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('layouts.admin')
 
 @section('title', 'Dashboard')
@@ -77,7 +78,7 @@
                         </div>
                         <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 bg-white">
                             @if ($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                <img src="{{ Storage::disk('s3')->url($product->image) }}" alt="{{ $product->name }}"
                                     class="h-full w-full object-cover transition duration-300 group-hover:scale-110">
                             @else
                                 <div class="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">

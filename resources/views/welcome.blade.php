@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -319,7 +320,7 @@
 
                         <div class="h-64 bg-gray-100 w-full overflow-hidden relative group shrink-0">
                             @if ($product->image)
-                                <img src="{{ Storage::disk('s3')->url($product->image) }}" alt="{{ $product->name }}"
+                                <<img src="{{ Storage::disk('s3')->url($product->image) }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 
                                     {{ $product->stock <= 0 ? 'grayscale opacity-60' : '' }}">
                             @else

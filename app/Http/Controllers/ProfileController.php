@@ -45,12 +45,11 @@ class ProfileController extends Controller
 
         if ($request->hasFile('image')) {
             // Hapus foto lama dari server jika user sudah punya foto sebelumnya
-            if ($user->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->image)) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->image);
+            if ($user->image && \Illuminate\Support\Facades\Storage::disk('s3')->exists($user->image)) {
+                \Illuminate\Support\Facades\Storage::disk('s3')->delete($user->image);
             }
 
-            // Simpan foto baru ke folder storage/app/public/profile_images
-            $imagePath = $request->file('image')->store('profile_images', 'public');
+            $imagePath = $request->file('image')->store('profile_images', 's3');
             $user->image = $imagePath;
         }
 

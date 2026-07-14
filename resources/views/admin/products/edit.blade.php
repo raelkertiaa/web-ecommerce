@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('layouts.admin')
 
 @section('title', 'Edit Produk')
@@ -70,7 +71,7 @@
 
                         @if ($product->image)
                             <div class="mb-4 w-32 rounded-lg border border-gray-200 p-1">
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="Current Image" class="rounded">
+                               <img src="{{ Storage::disk('s3')->url($product->image) }}" alt="Current Image" class="rounded">
                                 <p class="mt-1 text-center text-xs text-gray-500">Gambar Saat Ini</p>
                             </div>
                         @endif

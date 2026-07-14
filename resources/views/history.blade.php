@@ -124,7 +124,7 @@
                             <button @click="open = !open"
                                 class="flex items-center gap-2 border border-blue-400 hover:border-yellow-400 bg-blue-700 hover:bg-blue-800 pl-1.5 pr-4 py-1.5 rounded-full transition shadow-sm h-10">
                                 @if (Auth::user()->image)
-                                    <img src="{{ asset('storage/' . Auth::user()->image) }}"
+                                    <img src="{{ Storage::disk('s3')->url(Auth::user()->image) }}"
                                         class="w-7 h-7 rounded-full object-cover border border-yellow-400 shadow-sm">
                                 @else
                                     <div
