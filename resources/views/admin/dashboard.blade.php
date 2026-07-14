@@ -163,7 +163,7 @@
                     height: 350,
                     toolbar: { show: false }
                 },
-                colors: ['#2563eb', '#facc15'],
+                colors: ['#3C50E0', '#80CAEE'],
                 stroke: {
                     curve: 'smooth',
                     width: 2,

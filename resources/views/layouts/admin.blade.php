@@ -45,22 +45,24 @@
             class="absolute left-0 top-0 z-50 flex h-screen w-72 flex-col overflow-y-hidden bg-[#1C2434] duration-300 ease-linear lg:static lg:translate-x-0">
 
             <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-                <a href="{{ route('admin.dashboard') }}" class="text-2xl font-bold text-white flex items-center gap-3">
-                    <div class="w-10 h-10 bg-[#3C50E0] rounded flex items-center justify-center text-white">
-                        <svg class="fill-current" width="20" height="20" viewBox="0 0 32 32">
-                            <path
-                                d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zm0 28C9.373 28 4 22.627 4 16S9.373 4 16 4s12 5.373 12 12-5.373 12-12 12z" />
-                        </svg>
-                    </div>
-                    <span>ANImerch</span>
-                </a>
-                <button @click.stop="sidebarOpen = !sidebarOpen" class="block lg:hidden text-gray-400">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+    <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 text-2xl font-bold text-white">
+        <svg class="w-7 h-7 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+
+        <span>
+            ANI<span class="text-yellow-400">merch</span>
+        </span>
+    </a>
+
+    <button @click.stop="sidebarOpen = !sidebarOpen" class="block lg:hidden text-gray-400">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+</div>
 
             <div class="flex flex-col overflow-y-auto duration-300 ease-linear">
                 <nav class="mt-5 px-4 py-4 lg:mt-9 lg:px-6">
@@ -159,11 +161,31 @@
                 </div>
             </header>
 
-            <main class="bg-[#F1F5F9] h-full">
-                <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-                    @yield('content')
-                </div>
-            </main>
+           <main class="bg-[#F1F5F9] h-full">
+    <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+
+        <div class="mb-6">
+            <a href="{{ route('home') }}"
+                class="inline-flex items-center gap-2 rounded-lg bg-[#3C50E0] px-5 py-3 text-white font-semibold shadow hover:bg-[#3046d3] transition">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 19l-7-7 7-7"/>
+                </svg>
+
+                Kembali ke Beranda
+            </a>
+        </div>
+
+        @yield('content')
+
+    </div>
+</main>
         </div>
     </div>
 </body>
