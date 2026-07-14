@@ -1,196 +1,245 @@
-<!DOCTYPE html>
-<html lang="id">
+@php use Illuminate\Support\Facades\Storage; @endphp
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - Admin Panel</title>
+@section('title', 'Dashboard')
 
-    <script src="https://cdn.tailwindcss.com"></script>
+@section('content')
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-8">
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        [x-cloak] {
-            display: none !important;
-        }
-
-        /* Warna Khusus TailAdmin */
-        .bg-boxdark {
-            background-color: #1C2434;
-        }
-
-        .text-bodydark {
-            color: #DEE4EE;
-        }
-
-        .text-bodydark2 {
-            color: #8A99AF;
-        }
-
-        /* Selaraskan dengan tema halaman utama (blue-600 + yellow-400) */
-        .bg-sidebar-admin {
-            background-color: #1e3a8a;
-            /* blue-900, senada dengan navbar blue-600 tapi lebih gelap untuk sidebar */
-        }
-
-        .bg-sidebar-active {
-            background-color: #2563eb;
-            /* blue-600, sama seperti navbar halaman utama */
-        }
-    </style>
-</head>
-
-<body class="bg-[#F1F5F9] text-slate-900" x-data="{ sidebarOpen: false }">
-
-    <div class="flex h-screen overflow-hidden">
-
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-            class="absolute left-0 top-0 z-50 flex h-screen w-72 flex-col overflow-y-hidden bg-sidebar-admin duration-300 ease-linear lg:static lg:translate-x-0">
-
-            <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 border-b border-white/10">
-                <a href="{{ route('admin.dashboard') }}" class="text-2xl font-extrabold text-white flex items-center gap-2">
-                    <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
-                    <span>ANI<span class="text-yellow-400">merch</span></span>
-                </a>
-                <button @click.stop="sidebarOpen = !sidebarOpen" class="block lg:hidden text-gray-400">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+        <div
+            class="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-sm flex flex-col items-center justify-center text-center">
+            <div class="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-blue-50 text-blue-600 mb-4">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
             </div>
-
-            <div class="flex flex-col overflow-y-auto duration-300 ease-linear">
-                <nav class="mt-5 px-4 py-4 lg:mt-9 lg:px-6">
-                    <h3 class="mb-4 ml-4 text-sm font-semibold text-[#8A99AF]">MENU UTAMA</h3>
-
-                    <ul class="mb-6 flex flex-col gap-1.5">
-
-                        <li>
-                            <a href="{{ route('admin.dashboard') }}"
-                                class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-sidebar-active/60 {{ request()->routeIs('admin.dashboard') ? 'bg-sidebar-active text-white' : 'text-[#DEE4EE]' }}">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
-                                    </path>
-                                </svg>
-                                Dashboard
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('admin.products.index') }}"
-                                class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-sidebar-active/60 {{ request()->routeIs('admin.products.*') ? 'bg-sidebar-active text-white' : 'text-[#DEE4EE]' }}">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4">
-                                    </path>
-                                </svg>
-                                Produk
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('admin.orders.index') }}"
-                                class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-sidebar-active/60 {{ request()->routeIs('admin.orders.*') ? 'bg-sidebar-active text-white' : 'text-[#DEE4EE]' }}">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                                    </path>
-                                </svg>
-                                Pesanan Masuk
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('admin.reports.index') }}"
-                                class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-sidebar-active/60 {{ request()->routeIs('admin.reports.*') ? 'bg-sidebar-active text-white' : 'text-[#DEE4EE]' }}">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z">
-                                    </path>
-                                </svg>
-                                Laporan Keuangan
-                            </a>
-                        </li>
-
-                    </ul>
-                </nav>
+            <div>
+                <h4 class="text-2xl font-bold text-black">{{ \App\Models\User::count() }}</h4>
+                <span class="text-sm font-medium text-slate-500">Total User</span>
             </div>
-        </aside>
+        </div>
 
-        <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+        @php
+            $totalRevenue = \App\Models\Order::where('status', 'Paid')->sum('total_price');
+        @endphp
+        <div
+            class="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-sm flex flex-col items-center justify-center text-center">
+            <div class="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-green-50 text-green-600 mb-4">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="text-2xl font-bold text-black">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</h4>
+                <span class="text-sm font-medium text-slate-500">Total Pendapatan</span>
+            </div>
+        </div>
 
-            <header class="sticky top-0 z-40 flex w-full bg-white drop-shadow-1 shadow-sm">
-                <div class="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
-
-                    <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
-                        <button @click.stop="sidebarOpen = !sidebarOpen"
-                            class="block rounded-sm border border-stroke bg-white p-1.5 shadow-sm">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                        </button>
-                        <a href="{{ route('home') }}"
-                            class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                            </svg>
-                            Beranda
-                        </a>
-                    </div>
-
-                    <div class="hidden sm:flex w-full max-w-xl items-center">
-                        <a href="{{ route('home') }}"
-                            class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                            </svg>
-                            Kembali ke Beranda
-                        </a>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <div class="hidden text-right lg:block">
-                            <span class="block text-sm font-medium text-black">{{ Auth::user()->name }}</span>
-                            <span class="block text-xs font-semibold text-yellow-600">Administrator</span>
-                        </div>
-                        <div class="h-10 w-10 rounded-full bg-gray-200 overflow-hidden border border-slate-200">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random"
-                                alt="User" />
-                        </div>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="text-sm font-medium text-red-500 hover:text-red-700 ml-2 transition">
-                                Logout
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </header>
-
-            <main class="bg-[#F1F5F9] h-full">
-                <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-                    @yield('content')
-                </div>
-            </main>
+        <div
+            class="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-sm flex flex-col items-center justify-center text-center">
+            <div class="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-blue-50 text-blue-600 mb-4">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="text-2xl font-bold text-black">{{ \App\Models\Product::count() }}</h4>
+                <span class="text-sm font-medium text-slate-500">Total Produk</span>
+            </div>
         </div>
     </div>
-</body>
 
-</html>
+    <div class="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+
+        <div class="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-sm sm:px-7.5 xl:col-span-8">
+            <div class="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap mb-6">
+                <div class="flex w-full flex-wrap gap-3 sm:gap-5">
+                    <h4 class="text-xl font-bold text-black">Statistik Penjualan</h4>
+                </div>
+            </div>
+
+            <div id="chartOne" class="-ml-5"></div>
+        </div>
+
+        <div class="col-span-12 rounded-lg border border-gray-200 bg-white p-6 shadow-sm xl:col-span-4">
+            <div class="mb-6 flex items-center justify-between">
+                <h4 class="text-xl font-bold text-slate-800">Produk Terlaris</h4>
+                <span class="rounded bg-blue-100 px-2 py-1 text-xs font-medium text-blue-600">Top 5</span>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                @forelse($topProducts as $index => $product)
+                    <div class="group relative flex items-center gap-4 rounded-lg border border-gray-100 bg-gray-50 p-4 transition-all hover:bg-white hover:shadow-md hover:border-blue-200">
+                        <div class="absolute -left-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-white shadow-sm">
+                            {{ $index + 1 }}
+                        </div>
+                        <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 bg-white">
+                            @if ($product->image)
+                                <img src="{{ Storage::disk('s3')->url($product->image) }}" alt="{{ $product->name }}"
+                                    class="h-full w-full object-cover transition duration-300 group-hover:scale-110">
+                            @else
+                                <div class="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="flex flex-1 flex-col justify-center">
+                            <h5 class="text-sm font-bold text-slate-800 line-clamp-1" title="{{ $product->name }}">
+                                {{ $product->name }}
+                            </h5>
+                            <div class="mt-1 flex items-center justify-between">
+                                <span class="text-xs font-medium text-slate-500">
+                                    Harga: <span class="text-slate-700">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                                </span>
+                                <span class="rounded-full bg-green-100 px-2 py-0.5 text-xs font-bold text-green-700">
+                                    {{ $product->total_sold }} Terjual
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 py-8 text-center">
+                        <p class="text-sm text-gray-500">Belum ada penjualan</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-sm sm:px-7.5 xl:pb-1">
+        <h4 class="mb-6 text-xl font-bold text-black">Transaksi Terbaru</h4>
+        <div class="flex flex-col">
+            <div class="grid grid-cols-3 rounded-sm bg-gray-100 sm:grid-cols-5 p-2.5">
+                <div class="p-2.5 xl:p-5"><h5 class="text-sm font-medium uppercase xsm:text-base">Produk</h5></div>
+                <div class="p-2.5 text-center xl:p-5"><h5 class="text-sm font-medium uppercase xsm:text-base">Tanggal</h5></div>
+                <div class="p-2.5 text-center xl:p-5"><h5 class="text-sm font-medium uppercase xsm:text-base">Harga</h5></div>
+                <div class="hidden p-2.5 text-center sm:block xl:p-5"><h5 class="text-sm font-medium uppercase xsm:text-base">Status</h5></div>
+                <div class="hidden p-2.5 text-center sm:block xl:p-5"><h5 class="text-sm font-medium uppercase xsm:text-base">Aksi</h5></div>
+            </div>
+
+            @foreach (\App\Models\Order::latest()->take(5)->get() as $order)
+                <div class="grid grid-cols-3 border-b border-stroke sm:grid-cols-5 p-2.5 hover:bg-gray-50 transition">
+                    <div class="flex items-center gap-3 p-2.5 xl:p-5">
+                        <p class="hidden text-black sm:block font-medium text-sm">Order #{{ $order->id }}</p>
+                    </div>
+                    <div class="flex items-center justify-center p-2.5 xl:p-5">
+                        <p class="text-black text-sm">{{ $order->created_at->format('d M Y') }}</p>
+                    </div>
+                    <div class="flex items-center justify-center p-2.5 xl:p-5">
+                        <p class="text-green-600 font-bold text-sm">Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                    </div>
+                    <div class="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                        <p class="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium {{ $order->status == 'Paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
+                            {{ $order->status }}
+                        </p>
+                    </div>
+                    <div class="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                        <a href="{{ route('admin.orders.index') }}" class="text-sm hover:text-blue-500">Detail</a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var options = {
+                series: [{
+                    name: 'Pendapatan',
+                    data: @json(array_values(array_map(fn($val) => $val / 1000000, $chartSales)))
+                }, {
+                    name: 'Total Pesanan',
+                    data: @json(array_values($chartOrders))
+                }],
+                chart: {
+                    type: 'area',
+                    height: 350,
+                    toolbar: { show: false }
+                },
+                colors: ['#2563eb', '#facc15'],
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        opacityFrom: 0.55,
+                        opacityTo: 0,
+                    }
+                },
+                dataLabels: { enabled: false },
+                
+                // 1. CONFIG X-AXIS (Bagian Bawah)
+                xaxis: {
+                    categories: @json(array_keys($chartSales)), // Ini mengirim angka 1, 2, 3...
+                    axisBorder: { show: false },
+                    axisTicks: { show: false },
+                    labels: {
+                        // Formatter untuk mengubah Angka (1-12) menjadi Nama Bulan (Jan-Des)
+                        formatter: function (val) {
+                            const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+                            // val - 1 karena array mulai dari 0, sedangkan bulan dari 1
+                            return monthNames[val - 1] || val;
+                        }
+                    }
+                },
+
+                // 2. CONFIG Y-AXIS (Kiri & Kanan)
+                yaxis: [
+                    {
+                        title: { text: 'Pendapatan (Jutaan)' },
+                        labels: {
+                            formatter: function (value) {
+                                return value.toFixed(1); // Angka desimal pendek (15.5)
+                            }
+                        }
+                    },
+                    {
+                        opposite: true,
+                        title: { text: 'Total Pesanan' },
+                        labels: {
+                            formatter: function (value) {
+                                return value.toFixed(0); // Angka bulat (24)
+                            }
+                        }
+                    }
+                ],
+
+                // 3. CONFIG TOOLTIP (Popup Hover)
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    y: {
+                        formatter: function (value, { seriesIndex, w }) {
+                            // Format Pendapatan
+                            if (seriesIndex === 0) {
+                                let fullValue = value * 1000000;
+                                return "Rp " + fullValue.toLocaleString('id-ID');
+                            }
+                            // Format Pesanan
+                            if (seriesIndex === 1) {
+                                return value.toFixed(0) + " Pesanan";
+                            }
+                            return value;
+                        }
+                    }
+                },
+                grid: {
+                    strokeDashArray: 5,
+                    yaxis: { lines: { show: true } }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chartOne"), options);
+            chart.render();
+        });
+    </script>
+@endsection
